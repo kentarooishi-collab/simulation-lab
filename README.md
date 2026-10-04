@@ -12,11 +12,11 @@
 
 ## 公開サイト
 
-公開予定URL: [https://kentarooishi-collab.github.io/simulation-lab/](https://kentarooishi-collab.github.io/simulation-lab/)
+公開URL: [https://kentarooishi-collab.github.io/simulation-lab/](https://kentarooishi-collab.github.io/simulation-lab/)
 
 [使い方・このラボについて](https://kentarooishi-collab.github.io/simulation-lab/about.html) ／ [ソースリポジトリ](https://github.com/kentarooishi-collab/simulation-lab)
 
-現在は公開準備中です。初回デプロイ成功後に公開状態と検証結果を更新します。
+2026-10-05に初回公開。GitHub Actionsの公開処理と、ライブサイトの主要操作・スマートフォン表示を確認済みです。
 
 ## 手元で開く
 
