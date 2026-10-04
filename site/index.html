@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="ja" data-experience="solar"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#080d16"><title>体験シミュレーションラボ V5｜太陽系・増加・ピアノ</title></head><body>
+<div id="simulation-lab-v5" class="simulation-lab-v5">
+  <style>
+:root{color-scheme:dark}html{background:#080d16}body{margin:0;background:radial-gradient(ellipse at 15% 0%,#16333c77,transparent 50%),#080d16;color:#edf4fa;font-family:system-ui,-apple-system,"Segoe UI","Yu Gothic",sans-serif}button,input,select{font:inherit}button{touch-action:manipulation}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #77ead4;outline-offset:4px}
+#simulation-lab-v5{--background:#0d1622;--foreground:#edf4fa;--card:#111f2d;--border:#344657;--input:#3b5060;--primary:#71e5ce;--primary-foreground:#081e20;--secondary:#1b2b3c;--secondary-foreground:#edf4fa;--muted:#182735;--muted-foreground:#b3c2cf;--viz-series-1:#71e5ce;--blue:#60a5fa;--orange:#ff9563;--yellow:#f7cc7c;--green:#71e5ce;--purple:#c3acf6;--destructive:#ffa0a0;box-sizing:border-box;max-width:1320px;margin:auto;padding:28px clamp(12px,3vw,36px) 24px;min-width:0}
+#simulation-lab-v5 *{box-sizing:border-box} .masthead{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:24px}.eyebrow{font-size:10px;letter-spacing:.25em;color:#71e5ce;text-transform:uppercase;margin:0 0 7px}.masthead h1{font-size:clamp(22px,3vw,34px);letter-spacing:.04em;font-weight:600;margin:0}.masthead p.subtitle{font-size:12px;color:#b3c2cf;margin:6px 0 0}.edition{border:1px solid #344657;padding:8px 11px;border-radius:30px;color:#b3c2cf;font-size:10px;white-space:nowrap;letter-spacing:.12em}
+#simulation-lab-v5 .tabs{display:flex;gap:6px;margin-bottom:20px;padding:5px;background:#101c29;border:1px solid #2c3d4d;border-radius:14px;max-width:650px}#simulation-lab-v5 .tabs button{flex:1;border:0;background:transparent;color:#b3c2cf;border-radius:9px;padding:12px 8px;font-size:13px;cursor:pointer;transition:background .2s,color .2s}#simulation-lab-v5 .tabs button[aria-selected=true]{color:#081e20;background:linear-gradient(130deg,#9df0de,#64c9c6);box-shadow:0 3px 16px #57d3c21b}#simulation-lab-v5 .panel{display:none;min-width:0}#simulation-lab-v5 .panel.active{display:block}.panel-head{display:flex;justify-content:space-between;align-items:start;gap:16px;margin-bottom:18px}.panel-head h2{font-size:20px;font-weight:500;margin:0 0 6px}.panel-head p{color:#b3c2cf;font-size:12px;line-height:1.6;margin:0}.panel-number{font-size:11px;letter-spacing:.16em;color:#8ba1b5;padding-top:6px}
+#simulation-lab-v5 .control-row{display:flex;flex-wrap:wrap;align-items:end;gap:16px;margin:0 0 20px}#simulation-lab-v5 label{display:grid;gap:7px;min-width:140px;font-size:12px;color:#b3c2cf}#simulation-lab-v5 label span{font-size:18px;color:#edf4fa;font-variant-numeric:tabular-nums}#simulation-lab-v5 input,#simulation-lab-v5 select{min-width:0;max-width:100%;color:#edf4fa;background:#142332;border:1px solid #3b5060;border-radius:8px;padding:10px;font-size:13px}#simulation-lab-v5 input[type=range]{padding:0;width:100%;accent-color:#71e5ce;height:22px;cursor:pointer}#simulation-lab-v5 button.action{padding:10px 14px;border-radius:9px;border:1px solid #405367;background:#1b2b3c;color:#edf4fa;font-size:12px;cursor:pointer}#simulation-lab-v5 button.action:hover{background:#293e50}#simulation-lab-v5 button.action.primary{background:#71e5ce;border-color:#71e5ce;color:#081e20;font-weight:600}#simulation-lab-v5 svg{width:100%;height:auto;display:block;border-radius:14px;overflow:hidden}#simulation-lab-v5 #growth-svg,#simulation-lab-v5 #piano-svg{background:linear-gradient(140deg,#142638,#0c1723);border:1px solid #2f4355}#simulation-lab-v5 .readout{margin-top:12px;font-size:13px;line-height:1.7;color:#d1e3ee;font-variant-numeric:tabular-nums}#simulation-lab-v5 .muted{color:#b3c2cf}#simulation-lab-v5 .danger{color:#ffa0a0}#simulation-lab-v5 .info-card{margin-top:18px;padding:14px;border:1px solid #32485a;border-radius:10px;background:#122433;font-size:12px;line-height:1.8;color:#c8d9e5}#simulation-lab-v5 .info-card strong{font-size:15px;color:#edf4fa}#simulation-lab-v5 .legend{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin:14px 0 0;font-size:11px;color:#b3c2cf}#simulation-lab-v5 .legend span{display:inline-flex;align-items:center;gap:5px}#simulation-lab-v5 .dot{width:6px;height:6px;border-radius:50%;display:inline-block}
+.solar-layout{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:22px;align-items:start}.observatory{min-width:0;display:flex;flex-direction:column;align-items:center}.scene{width:min(100%,800px,var(--scene-height,calc(100svh - 300px)));max-width:100%;aspect-ratio:1;position:relative;border:1px solid #2e475b;border-radius:20px;background:radial-gradient(ellipse at 50% 50%,#223344 0%,#101e30 36%,#070e19 74%);box-shadow:0 24px 70px #0005,inset 0 0 70px #3689a710;overflow:hidden}.scene::after{content:'';position:absolute;inset:0;pointer-events:none;border-radius:inherit;box-shadow:inset 0 0 50px #03071066}.scene #solar-svg{width:100%;height:100%;border:0;background:transparent;position:relative;z-index:1;aspect-ratio:1}.scene-label{position:absolute;left:18px;top:17px;font-size:9px;letter-spacing:.2em;color:#91acbf;pointer-events:none;z-index:2}.scene-label.bottom{top:auto;bottom:17px}.controls-card{background:linear-gradient(140deg,#142331,#0e1a27);border:1px solid #304557;border-radius:16px;padding:18px;min-width:0}.controls-card h3{font-weight:500;font-size:12px;letter-spacing:.05em;margin:0 0 18px;color:#71e5ce}#simulation-lab-v5 .controls-card .control-row{display:grid;grid-template-columns:1fr;gap:14px;margin:0}#simulation-lab-v5 .controls-card label{min-width:0}.action-pair{display:flex;gap:8px}.action-pair button{flex:1;white-space:nowrap;padding:10px 8px!important}.hint{font-size:11px;color:#9bb1c4;line-height:1.8;margin:12px 0 0}.footer{font-size:10px;color:#8aa0b5;display:flex;justify-content:space-between;gap:14px;border-top:1px solid #25384a;margin-top:24px;padding-top:16px;line-height:1.7}
+#simulation-lab-v5 .keyrow{display:flex;justify-content:center;gap:0;margin:26px auto 20px;padding:10px 8px 0;max-width:660px;min-width:0;background:#090e17;border:1px solid #3b5060;border-radius:12px;box-shadow:0 12px 32px #0004}#simulation-lab-v5 .key{height:150px;min-width:0;flex:1 1 0;border:1px solid #9dabb6;background:linear-gradient(#f5f6f1,#d5dfdc);color:#213040;border-radius:0 0 7px 7px;cursor:pointer;position:relative;font-size:12px;display:flex;align-items:end;justify-content:center;padding:0 0 16px;box-shadow:inset 0 -5px 0 #9eadb4;transition:background .1s}#simulation-lab-v5 .key.black{height:93px;min-width:0;flex:0 0 6.6%;margin:0 -3.3%;background:linear-gradient(#253344,#080d15);color:#d8e5eb;z-index:2;border-color:#030811;font-size:10px;box-shadow:inset 0 -5px 0 #03070c}#simulation-lab-v5 .key:active,#simulation-lab-v5 .key.pressed{background:#80dacd;box-shadow:inset 0 -2px 0 #4fafa8;transform:translateY(2px)}#simulation-lab-v5 .key.broken{opacity:.42;cursor:not-allowed}#simulation-lab-v5 .status-chip{display:inline-block;padding:2px 8px;border:1px solid #38596b;border-radius:999px;background:#183543;font-size:11px;margin-left:4px}#simulation-lab-v5 .small{font-size:12px;line-height:1.7}
+@media(max-width:900px){.solar-layout{grid-template-columns:minmax(0,1fr)}.scene{width:min(100%,800px,var(--scene-height,calc(100svh - 300px)))}#simulation-lab-v5 .controls-card .control-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.controls-card{padding:16px}.controls-card h3{margin-bottom:14px}.controls-card .info-card{margin-top:14px}}
+@media(max-width:480px){#simulation-lab-v5{padding:18px 12px}.masthead{margin-bottom:17px;gap:10px}.edition{display:none}.masthead p.subtitle{font-size:11px}#simulation-lab-v5 .tabs{margin-bottom:16px}#simulation-lab-v5 .tabs button{font-size:11px;padding:11px 5px}.panel-head h2{font-size:17px}.panel-head{margin-bottom:14px}.panel-number{display:none}#simulation-lab-v5 .control-row label{min-width:calc(50% - 8px);flex:1}.scene{width:min(100%,var(--scene-height,calc(100svh - 300px)));border-radius:14px}.scene-label{font-size:7px;left:10px;top:10px}.scene-label.bottom{bottom:10px}#simulation-lab-v5 .legend{gap:9px;font-size:10px}.footer{flex-direction:column;gap:3px}#simulation-lab-v5 .key{height:115px;font-size:10px}#simulation-lab-v5 .key.black{height:72px;font-size:8px}}
+@media(max-height:520px){#simulation-lab-v5{padding-top:12px}.masthead{margin-bottom:12px}.masthead h1{font-size:22px}.masthead p.subtitle{display:none}.masthead .eyebrow{display:none}.panel-head h2{font-size:16px;margin-bottom:0}#simulation-lab-v5 .tabs{margin-bottom:12px}.panel-head{margin-bottom:10px}.panel-head p{display:none}.scene{width:min(100%,800px,var(--scene-height,calc(100svh - 160px)))}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* Each experiment has its own visual atmosphere. */
+html[data-experience="solar"] #simulation-lab-v5{padding-top:18px}
+html[data-experience="solar"] .masthead{margin-bottom:14px}
+html[data-experience="solar"] .masthead h1{font-size:clamp(22px,2.4vw,28px)}
+html[data-experience="solar"] .masthead p.subtitle{display:none}
+html[data-experience="solar"] #simulation-lab-v5 .tabs{margin-bottom:14px}
+html[data-experience="solar"] .panel-head{margin-bottom:14px}
+html[data-experience="solar"] .panel-head h2{margin-bottom:0}
+html[data-experience="solar"] [data-panel="solar"] .panel-head p{display:none}
+html[data-experience="growth"],html[data-experience="piano"]{color-scheme:light;background:var(--page-color)}
+html[data-experience="growth"]{--page-color:#f8f3e9;--page-glow:#eedcbf;--ink:#392b20;--soft-ink:#786148;--theme-border:#d8c7ad;--accent:#aa572b;--accent-soft:#ecd4ae;--surface:#fffdf8;--surface-bottom:#f5e8d2;--field:#fffaf1;--button-ink:#fffaf2}
+html[data-experience="piano"]{--page-color:#f3eef8;--page-glow:#e2d5ee;--ink:#382c4a;--soft-ink:#715e84;--theme-border:#d2bfdc;--accent:#81519b;--accent-soft:#e4d1ee;--surface:#fffcff;--surface-bottom:#ece1f4;--field:#fffaff;--button-ink:#ffffff}
+html:not([data-experience="solar"]) body{color:var(--ink);background:radial-gradient(ellipse at 15% 0%,var(--page-glow),transparent 55%),var(--page-color)}
+html:not([data-experience="solar"]) #simulation-lab-v5{--foreground:var(--ink);--border:var(--theme-border);--muted-foreground:var(--soft-ink);--viz-series-1:var(--accent);--destructive:#b12e45;--background:var(--surface)}
+html:not([data-experience="solar"]) .eyebrow{color:var(--accent)}
+html:not([data-experience="solar"]) .masthead p.subtitle,html:not([data-experience="solar"]) .panel-head p,html:not([data-experience="solar"]) .panel-number,html:not([data-experience="solar"]) .edition{color:var(--soft-ink)}
+html:not([data-experience="solar"]) .edition{border-color:var(--theme-border)}
+html:not([data-experience="solar"]) #simulation-lab-v5 .tabs{background:var(--surface);border-color:var(--theme-border);box-shadow:0 5px 24px #51352c08}
+html:not([data-experience="solar"]) #simulation-lab-v5 .tabs button{color:var(--soft-ink)}
+html:not([data-experience="solar"]) #simulation-lab-v5 .tabs button[aria-selected=true]{background:var(--accent);color:var(--button-ink);box-shadow:0 3px 12px #51352c15}
+html:not([data-experience="solar"]) #simulation-lab-v5 label{color:var(--soft-ink)}
+html:not([data-experience="solar"]) #simulation-lab-v5 label span{color:var(--ink)}
+html:not([data-experience="solar"]) #simulation-lab-v5 input,html:not([data-experience="solar"]) #simulation-lab-v5 select{color:var(--ink);background:var(--field);border-color:var(--theme-border)}
+html:not([data-experience="solar"]) #simulation-lab-v5 input[type=range]{accent-color:var(--accent)}
+html:not([data-experience="solar"]) #simulation-lab-v5 button.action{background:var(--accent-soft);color:var(--ink);border-color:var(--theme-border)}
+html:not([data-experience="solar"]) #simulation-lab-v5 button.action:hover{background:var(--theme-border)}
+html:not([data-experience="solar"]) #simulation-lab-v5 button.action.primary{background:var(--accent);border-color:var(--accent);color:var(--button-ink)}
+html:not([data-experience="solar"]) #simulation-lab-v5 #growth-svg,html:not([data-experience="solar"]) #simulation-lab-v5 #piano-svg{background:linear-gradient(145deg,var(--surface),var(--surface-bottom));border-color:var(--theme-border);box-shadow:0 16px 42px #51352c08}
+html:not([data-experience="solar"]) #simulation-lab-v5 .readout{color:var(--ink)}
+html:not([data-experience="solar"]) #simulation-lab-v5 .muted{color:var(--soft-ink)}
+html:not([data-experience="solar"]) .footer{color:var(--soft-ink);border-color:var(--theme-border)}
+html:not([data-experience="solar"]) button:focus-visible,html:not([data-experience="solar"]) input:focus-visible,html:not([data-experience="solar"]) select:focus-visible{outline-color:var(--accent)}
+html[data-experience="piano"] #simulation-lab-v5 .keyrow{background:#3a2947;border-color:#5c416e;box-shadow:0 14px 30px #58377622}
+html[data-experience="piano"] #simulation-lab-v5 .key{background:linear-gradient(#fffcff,#ece5f2);color:#3a2947;box-shadow:inset 0 -5px 0 #d0bfdc;border-color:#bca9ca}
+html[data-experience="piano"] #simulation-lab-v5 .key.black{background:linear-gradient(#50385f,#261b30);color:#f4eafa;box-shadow:inset 0 -5px 0 #201628;border-color:#201628}
+html[data-experience="piano"] #simulation-lab-v5 .key:active,html[data-experience="piano"] #simulation-lab-v5 .key.pressed{background:#d3a9e4;color:#382548;box-shadow:inset 0 -2px 0 #ad78c3}
+@media(max-height:520px){html[data-experience="solar"] #simulation-lab-v5{padding-top:12px}html[data-experience="solar"] .masthead{margin-bottom:10px}}
+
+</style>
+
+  <header class="masthead"><div><p class="eyebrow">INTERACTIVE ATELIER / V5</p><h1>体験シミュレーションラボ</h1><p class="subtitle">動かして、聴いて、仕組みを見つける。</p></div><span class="edition">EXPLORE · PLAY · DISCOVER</span></header>
+  <div class="tabs" role="tablist" aria-label="シミュレーションの種類">
+    <button type="button" role="tab" aria-selected="true" data-tab="solar">01　太陽系を旅する</button>
+    <button type="button" role="tab" aria-selected="false" data-tab="growth">02　増加のしくみ</button>
+    <button type="button" role="tab" aria-selected="false" data-tab="piano">03　音とピアノ</button>
+  </div>
+
+  <section class="panel" data-panel="growth" role="tabpanel"><div class="panel-head"><div><h2>小さな変化が、未来を変える。</h2><p>一定の増加率で積み重なる数値を、曲線で確かめる。</p></div><span class="panel-number">02 / GROWTH STUDY</span></div>
+    <div class="control-row">
+      <label>初期値 <input id="g-start" type="number" value="100" min="0" max="1000000000000" step="any"></label>
+      <label>増加率 <span><output id="g-rate-out">10</output>%</span><input id="g-rate" type="range" min="0" max="50" value="10"></label>
+      <label>期間 <span><output id="g-years-out">12</output>期</span><input id="g-years" type="range" min="1" max="30" value="12"></label>
+    </div>
+    <svg id="growth-svg" viewBox="0 0 720 300" role="img" aria-label="増加シミュレーションの折れ線グラフ"></svg>
+    <div class="readout" id="growth-readout" aria-live="polite"></div>
+  </section>
+
+<section class="panel active" data-panel="solar" role="tabpanel"><div class="panel-head"><div><h2>小さな宇宙を、あなたのペースで。</h2><p>地球と月から、環をまとう土星まで。時間を動かして軌道を観察しよう。</p></div><span class="panel-number">01 / ORBITAL OBSERVATORY</span></div><div class="solar-layout"><div class="observatory"><div class="scene"><span class="scene-label" id="scene-title">SOLAR SYSTEM · TOP VIEW</span><svg id="solar-svg" viewBox="0 0 720 720" preserveAspectRatio="xMidYMid meet" role="img" aria-label="太陽系の公転。天体の説明は操作パネルから選択できます。"></svg><span class="scene-label bottom">DISTANCE & SIZE · ILLUSTRATIVE</span></div>    <div class="legend" aria-label="凡例">
+      <span><i class="dot" style="background:#3b82f6"></i>地球</span>
+      <span><i class="dot" style="background:#9ca3af"></i>月</span>
+      <span><i class="dot" style="background:#f97316"></i>火星</span>
+      <span><i class="dot" style="background:#eab308"></i>木星</span>
+      <span><i class="dot" style="background:#8b5cf6"></i>土星</span>
+    </div></div><aside class="controls-card"><h3>観測コントロール</h3>    <div class="control-row">
+      <label>時間の速さ <span><output id="s-speed-out">0.10</output>年/秒</span><input id="s-speed" type="range" min="0.02" max="2" step="0.02" value="0.10"></label>
+      <label>月の公転周期 <span><output id="s-moon-period-out">3</output>か月/1周</span><input id="s-moon-period" type="range" min="1" max="12" step="1" value="3"></label>
+<div class="action-pair"><button type="button" class="action primary" id="s-play" aria-pressed="false">▶ 再生</button><button type="button" class="action" id="s-reset">↺ リセット</button></div>
+      <label>表示対象
+        <select id="s-planet">
+          <option value="all">すべて</option><option value="earth">地球＋月</option><option value="mars">火星</option><option value="jupiter">木星＋主要衛星</option><option value="saturn">土星</option>
+        </select>
+      </label>
+      <label>表示モード
+        <select id="s-view"><option value="system">太陽系全体</option><option value="earthMoon">地球・月へズーム</option></select>
+      </label>
+      <label>軌跡 <select id="s-trail"><option value="on">表示</option><option value="off">非表示</option></select></label>
+    </div><div class="readout" id="solar-readout"></div><label style="margin-top:16px">天体について知る<select id="s-body"><option value="sun">太陽</option><option value="earth">地球</option><option value="moon">月</option><option value="mars">火星</option><option value="jupiter">木星</option><option value="io">イオ</option><option value="europa">エウロパ</option><option value="ganymede">ガニメデ</option><option value="saturn">土星</option></select></label><div class="info-card" id="solar-info" aria-live="polite">再生ボタンで観測を開始。天体を押すと説明が表示されます。</div><p class="hint">距離・大きさ・衛星の速さは観察用の簡略表現です。月の周期は自由に調整できます。</p></aside></div></section>
+
+  <section class="panel" data-panel="piano" role="tabpanel"><div class="panel-head"><div><h2>強く弾くほど、音が変わる。</h2><p>音程のゆらぎとノイズを聴いて、楽器の限界を探る。</p></div><span class="panel-number">03 / SOUND EXPERIMENT</span></div>
+    <div class="control-row">
+      <label>演奏の強さ <span><output id="p-force-out">55</output>%</span><input id="p-force" type="range" min="0" max="100" value="55"></label>
+      <label>耐久度 <span><output id="p-dur-out">100</output>%</span><input id="p-dur" type="range" min="20" max="160" value="100"></label>
+      <label>壊れ方 <select id="p-breakmode"><option value="pitch">音程が狂う</option><option value="noise">ノイズが混ざる</option><option value="both">両方</option></select></label>
+<label>音量 <span><output id="p-volume-out">40</output>%</span><input id="p-volume" type="range" min="0" max="100" value="40"></label><button type="button" class="action primary" id="p-repair">↺ 修理する</button>
+    </div>
+    <div class="small muted">鍵盤を押すと音声を有効化します。パソコンでは A W S E D F T G Y H U J で演奏。演奏の強さ0%で無音、音量0%でミュートできます。</div>
+    <div class="keyrow" aria-label="ミニピアノの鍵盤">
+      <button class="key" data-note="ド" data-freq="261.63">ド</button><button class="key black" data-note="ド♯" data-freq="277.18">♯</button>
+      <button class="key" data-note="レ" data-freq="293.66">レ</button><button class="key black" data-note="レ♯" data-freq="311.13">♯</button>
+      <button class="key" data-note="ミ" data-freq="329.63">ミ</button><button class="key" data-note="ファ" data-freq="349.23">ファ</button>
+      <button class="key black" data-note="ファ♯" data-freq="369.99">♯</button><button class="key" data-note="ソ" data-freq="392.00">ソ</button>
+      <button class="key black" data-note="ソ♯" data-freq="415.30">♯</button><button class="key" data-note="ラ" data-freq="440.00">ラ</button>
+      <button class="key black" data-note="ラ♯" data-freq="466.16">♯</button><button class="key" data-note="シ" data-freq="493.88">シ</button>
+    </div>
+    <svg id="piano-svg" viewBox="0 0 720 220" role="img" aria-label="ミニピアノの状態メーター"></svg>
+    <div class="readout" id="piano-readout" aria-live="polite"></div>
+  </section>
+
+<footer class="footer"><span>体験シミュレーションラボ · V5</span><span><a href="about.html" style="color:inherit;text-underline-offset:4px">このラボについて・使い方</a></span></footer>
+  <script>
+  (()=>{
+    const root=document.getElementById('simulation-lab-v5');
+    if(!root || root.dataset.ready==='1') return;
+    root.dataset.ready='1';
+    const $=s=>root.querySelector(s);
+    const NS='http://www.w3.org/2000/svg';
+    const make=(tag,attrs={})=>{const e=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));return e};
+    const line=(svg,x1,y1,x2,y2,color='var(--border,#d9d9d9)',w=1)=>svg.append(make('line',{x1,y1,x2,y2,stroke:color,'stroke-width':w}));
+    const circle=(svg,cx,cy,r,fill,extra={})=>{const e=make('circle',{cx,cy,r,fill,...extra});svg.append(e);return e};
+
+
+    const tabs=[...root.querySelectorAll('[data-tab]')];
+    function activateTab(b){
+      document.documentElement.dataset.experience=b.dataset.tab;
+      document.querySelector('meta[name="theme-color"]').content={solar:"#080d16",growth:"#f8f3e9",piano:"#f3eef8"}[b.dataset.tab];
+      tabs.forEach(x=>{x.setAttribute('aria-selected',String(x===b));x.tabIndex=x===b?0:-1;});
+      root.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.dataset.panel===b.dataset.tab));
+      if(typeof last!=='undefined')last=performance.now();
+    }
+    tabs.forEach((b,i)=>{b.id='tab-'+b.dataset.tab;b.setAttribute('aria-controls','panel-'+b.dataset.tab);b.tabIndex=b.dataset.tab==='solar'?0:-1;
+      const panel=root.querySelector('[data-panel="'+b.dataset.tab+'"]');panel.id='panel-'+b.dataset.tab;panel.setAttribute('aria-labelledby',b.id);
+      b.addEventListener('click',()=>activateTab(b));
+      b.addEventListener('keydown',e=>{let n=i;if(e.key==='ArrowRight')n=(i+1)%tabs.length;else if(e.key==='ArrowLeft')n=(i+tabs.length-1)%tabs.length;else if(e.key==='Home')n=0;else if(e.key==='End')n=tabs.length-1;else return;e.preventDefault();activateTab(tabs[n]);tabs[n].focus();});
+    });
+
+    const nf=new Intl.NumberFormat('ja-JP',{maximumFractionDigits:1});
+    function growth(){
+      const input=$('#g-start'),svg=$('#growth-svg'),raw=Number(input.value);
+      if(input.value===''||!Number.isFinite(raw)||raw<0||raw>1e12){input.setAttribute('aria-invalid','true');svg.innerHTML='';$('#growth-readout').textContent='初期値は0〜1兆の数値で入力してください。';return;}
+      input.removeAttribute('aria-invalid');const start=raw,rate=+$('#g-rate').value/100,n=+$('#g-years').value;
+      $('#g-rate-out').value=+$('#g-rate').value;$('#g-years-out').value=n;
+      const a=Array.from({length:n+1},(_,i)=>start*Math.pow(1+rate,i)),max=Math.max(...a,1);svg.innerHTML='';
+      for(let j=0;j<5;j++){const y=250-j*52;line(svg,85,y,690,y,'var(--border)');const label=make('text',{x:75,y:y+4,'text-anchor':'end',fill:'var(--muted-foreground)','font-size':10});label.textContent=new Intl.NumberFormat('ja-JP',{notation:'compact',maximumFractionDigits:1}).format(max*j/4);svg.append(label);}
+      line(svg,85,35,85,250);const pts=a.map((v,i)=>[85+i*605/n,250-v/max*208]);
+      svg.append(make('polygon',{points:'85,250 '+pts.map(p=>p.join(',')).join(' ')+' 690,250',fill:'var(--viz-series-1)','fill-opacity':.08}));
+      svg.append(make('polyline',{points:pts.map(p=>p.join(',')).join(' '),fill:'none',stroke:'var(--viz-series-1)','stroke-width':3}));
+      a.forEach((v,i)=>{const c=circle(svg,...pts[i],i===n?5:2.5,'var(--viz-series-1)');const title=make('title');title.textContent=i+'期: '+nf.format(v);c.append(title);});
+      [0,Math.floor(n/2),n].filter((v,i,a)=>a.indexOf(v)===i).forEach(i=>{const tx=make('text',{x:85+i*605/n,y:278,'text-anchor':'middle',fill:'var(--muted-foreground)','font-size':11});tx.textContent=i+'期';svg.append(tx);});
+      $('#growth-readout').textContent='最終値 '+nf.format(a[n])+' ／ 増加分 '+nf.format(a[n]-start)+(start>0?' ／ 初期値の '+(a[n]/start).toFixed(2)+'倍':' ／ 初期値0のため増加はありません');
+    }
+    ['#g-start','#g-rate','#g-years'].forEach(s=>$(s).addEventListener('input',growth));growth();
+    const bodyInfo={
+      sun:['太陽','太陽系の中心星。ここでは描画上の基準点です。'],
+      earth:['地球','公転周期の基準を1年として簡略化しています。月が地球の周りを回ります。'],
+      moon:['月','地球の衛星。実スケールではなく、見やすい距離で描画しています。公転周期はスライダーで1〜12か月に調整できます。'],
+      mars:['火星','地球より外側を回る惑星。'],
+      jupiter:['木星','巨大ガス惑星。ここではイオ、エウロパ、ガニメデを衛星として表示します。'],
+      io:['イオ','木星の主要衛星のひとつ。'],europa:['エウロパ','木星の主要衛星のひとつ。'],ganymede:['ガニメデ','木星最大の衛星。'],
+      saturn:['土星','環を持つ惑星として簡略表現しています。']
+    };
+    const planets=[
+      {id:'earth',r:92,period:1,color:'var(--blue,#3b82f6)',size:7},
+      {id:'mars',r:132,period:1.88,color:'var(--orange,#f97316)',size:6},
+      {id:'jupiter',r:188,period:11.86,color:'var(--yellow,#eab308)',size:11},
+      {id:'saturn',r:280,period:29.45,color:'var(--purple,#8b5cf6)',size:10}
+    ];
+
+    const trails={earth:[],mars:[],jupiter:[],saturn:[]};
+    let t=0,playing=false,last=performance.now(),sampleTime=-1,dirty=true,lastReadout=-1;
+    const svg=$('#solar-svg');
+    const stars=Array.from({length:130},(_,i)=>({x:14+(i*137.508)%692,y:14+(i*i*53.73)%692,r:i%8===0?1.3:.65,opacity:.15+(i%6)*.09}));
+    function selectBody(id){const x=bodyInfo[id]||[id,''];$('#s-body').value=id;$('#solar-info').innerHTML='<strong>'+x[0]+'</strong><br>'+x[1];}
+    function clickable(e,id){e.style.cursor='pointer';e.dataset.body=id;e.setAttribute('pointer-events','all');}
+    svg.addEventListener('pointerdown',e=>{const b=e.target.closest('[data-body]');if(b)selectBody(b.dataset.body);});
+    $('#s-body').addEventListener('change',e=>selectBody(e.target.value));
+    function orbit(svg,cx,cy,rx,ry=rx){svg.append(make('ellipse',{cx,cy,rx,ry,fill:'none',stroke:'#6c95b3','stroke-opacity':.32,'stroke-width':1,'stroke-dasharray':'2 6'}));}
+    function orbitPos(cx,cy,rx,ry,ang){return [cx+Math.cos(ang)*rx,cy+Math.sin(ang)*ry];}
+    function moonPeriodYears(){return +$('#s-moon-period').value/12;}
+    function drawTrail(svg,arr,color){if(arr.length<2)return;svg.append(make('polyline',{points:arr.map(p=>p.join(',')).join(' '),fill:'none',stroke:color,'stroke-width':1.8,'stroke-opacity':.5,'pointer-events':'none'}));}
+    function label(x,y,name,size=12){const el=make('text',{x,y,fill:'#c6d9e7','font-size':size,'text-anchor':'middle','pointer-events':'none'});el.textContent=name;svg.append(el);}
+    function body(x,y,r,color,id){const g=make('g');g.append(make('circle',{cx:x,cy:y,r:r+9,fill:'transparent'}));g.append(make('circle',{cx:x,cy:y,r,fill:color,stroke:'#ffffff55','stroke-width':.7}));clickable(g,id);svg.append(g);return g;}
+    function background(){
+      svg.innerHTML='';const defs=make('defs'),grad=make('radialGradient',{id:'sun-glow'});grad.append(make('stop',{offset:'0%', 'stop-color':'#ffc46b','stop-opacity':.28}),make('stop',{offset:'100%','stop-color':'#ffc46b','stop-opacity':0}));defs.append(grad);svg.append(defs);
+      stars.forEach(s=>circle(svg,s.x,s.y,s.r,'#d5e8f8',{'fill-opacity':s.opacity,'pointer-events':'none'}));
+    }
+    function solar(){
+      background();const cx=360,cy=360,zoom=$('#s-view').value==='earthMoon';
+      $('#scene-title').textContent=zoom?'EARTH & MOON · CLOSE VIEW':'SOLAR SYSTEM · TOP VIEW';
+      if(zoom){
+        orbit(svg,cx,cy,200,192);circle(svg,cx,cy,70,'#60a5fa',{'fill-opacity':.045});body(cx,cy,28,'#60a5fa','earth');label(cx,cy+53,'地球',15);
+        const [mx,my]=orbitPos(cx,cy,200,192,t/moonPeriodYears()*2*Math.PI);body(mx,my,11,'#cad5de','moon');label(mx,my-24,'月',14);
+      }else{
+        const selected=$('#s-planet').value;
+        const visible=planets.filter(p=>selected==='all'||selected===p.id);
+        visible.forEach(p=>orbit(svg,cx,cy,p.r,p.r*.96));
+        circle(svg,cx,cy,84,'url(#sun-glow)',{'pointer-events':'none'});body(cx,cy,24,'#ffd78b','sun');label(cx,cy+44,'太陽',12);
+        if(t!==sampleTime){visible.forEach(p=>{const pos=orbitPos(cx,cy,p.r,p.r*.96,t/p.period*2*Math.PI+({earth:-1.2,mars:.8,jupiter:2.4,saturn:-.45}[p.id]));trails[p.id].push(pos);if(trails[p.id].length>180)trails[p.id].shift();});sampleTime=t;}
+        visible.forEach(p=>{
+          const [x,y]=orbitPos(cx,cy,p.r,p.r*.96,t/p.period*2*Math.PI+({earth:-1.2,mars:.8,jupiter:2.4,saturn:-.45}[p.id]));
+          if($('#s-trail').value==='on')drawTrail(svg,trails[p.id],p.color);
+          if(p.id==='saturn'){const ring=make('ellipse',{cx:x,cy:y,rx:24,ry:9,fill:'none',stroke:'#dec5a0','stroke-opacity':.8,'stroke-width':3,transform:'rotate(-20 '+x+' '+y+')'});clickable(ring,p.id);svg.append(ring);}
+          body(x,y,p.size,p.color,p.id);label(x,y-p.size-16,bodyInfo[p.id][0],11);
+          if(p.id==='earth'){orbit(svg,x,y,22,19);const [mx,my]=orbitPos(x,y,22,19,t/moonPeriodYears()*2*Math.PI);body(mx,my,3.2,'#cbd5df','moon');}
+          if(p.id==='jupiter'){[['io',18,4.1,2.5,'#fb923c'],['europa',25,2.1,2.8,'#cbd5e1'],['ganymede',34,1,3.2,'#94a3b8']].forEach(([id,r,speed,size,color])=>{const [mx,my]=orbitPos(x,y,r,r,t*speed*2*Math.PI);body(mx,my,size,color,id);});}
+        });
+      }
+      // The readout is intentionally not a live region: animation should not flood screen readers.
+      if(Math.abs(t-lastReadout)>.008||dirty){$('#solar-readout').textContent=(playing?'● 観測中':'○ 一時停止')+' ／ '+(zoom?'地球・月':'太陽系')+'\n経過 '+t.toFixed(2)+'年・'+(t*12).toFixed(1)+'か月';lastReadout=t;}
+      dirty=false;
+    }
+    function animate(now){const dt=Math.min(.05,Math.max(0,(now-last)/1000));last=now;
+      const active=$('[data-panel="solar"]').classList.contains('active')&&!document.hidden;
+      if(playing&&active)t+=dt*+$('#s-speed').value;
+      if(active&&(playing||dirty))solar();requestAnimationFrame(animate);
+    }
+    document.addEventListener('visibilitychange',()=>{last=performance.now();});
+    tabs.forEach(b=>b.addEventListener('click',()=>{dirty=true;requestAnimationFrame(fitScene);}));
+    root.querySelector('.tabs').addEventListener('keydown',()=>{dirty=true;requestAnimationFrame(fitScene);});
+    $('#s-play').addEventListener('click',()=>{playing=!playing;$('#s-play').textContent=playing?'Ⅱ 一時停止':'▶ 再生';$('#s-play').setAttribute('aria-pressed',String(playing));last=performance.now();dirty=true;});
+    $('#s-reset').addEventListener('click',()=>{t=0;sampleTime=-1;Object.values(trails).forEach(a=>a.length=0);dirty=true;});
+    $('#s-speed').addEventListener('input',()=>{$('#s-speed-out').value=(+$('#s-speed').value).toFixed(2);dirty=true;});
+    $('#s-moon-period').addEventListener('input',()=>{$('#s-moon-period-out').value=$('#s-moon-period').value;dirty=true;});
+    $('#s-view').addEventListener('change',()=>{const zoom=$('#s-view').value==='earthMoon';$('#s-planet').disabled=zoom;$('#s-trail').disabled=zoom;dirty=true;});
+    ['#s-planet','#s-trail'].forEach(s=>$(s).addEventListener('change',()=>{sampleTime=-1;Object.values(trails).forEach(a=>a.length=0);dirty=true;}));
+    function fitScene(){const scene=$('.scene');if(!scene.getClientRects().length)return;const top=scene.getBoundingClientRect().top+window.scrollY;const available=Math.max(1,window.innerHeight-top-28);scene.style.setProperty('--scene-height',available+'px');}
+    window.addEventListener('resize',fitScene);const sceneObserver=new ResizeObserver(fitScene);sceneObserver.observe($('.masthead'));sceneObserver.observe($('.tabs'));sceneObserver.observe($('[data-panel="solar"] .panel-head'));fitScene();
+    $('#solar-readout').style.whiteSpace='pre-line';solar();requestAnimationFrame(animate);
+
+    let wear=0,audioCtx=null,audioStatus='鍵盤を押して音声ON',strikes=0;
+    async function getAudio(){
+      try{if(!audioCtx){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)throw Error('unsupported');audioCtx=new AC();audioCtx.addEventListener('statechange',()=>{audioStatus=audioCtx.state==='running'?'音声ON':'音声一時停止';piano();});}
+        if(audioCtx.state!=='running')await audioCtx.resume();
+        if(audioCtx.state!=='running')throw Error('suspended');audioStatus='音声ON';return audioCtx;
+      }catch(e){audioStatus='音声を有効化できません。ブラウザの音声設定を確認してください。';return null;}
+    }
+    function playNote(ctx,baseFreq,damage){
+      const force=+$('#p-force').value/100,volume=+$('#p-volume').value/100;if(force===0||volume===0)return;
+      const mode=$('#p-breakmode').value,detune=mode==='pitch'||mode==='both'?damage*.9*Math.sin(wear*.37):0,now=ctx.currentTime;
+      const gain=ctx.createGain();gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(Math.max(.0001,.24*force*volume),now+.015);gain.gain.exponentialRampToValueAtTime(.0001,now+.55);gain.connect(ctx.destination);
+      const osc=ctx.createOscillator();osc.type=damage>65?'square':'triangle';osc.frequency.setValueAtTime(baseFreq*Math.pow(2,detune/1200),now);osc.connect(gain);osc.onended=()=>{osc.disconnect();gain.disconnect();};osc.start(now);osc.stop(now+.58);
+      if((mode==='noise'||mode==='both')&&damage>20){const len=Math.floor(ctx.sampleRate*.18),buffer=ctx.createBuffer(1,len,ctx.sampleRate),data=buffer.getChannelData(0);for(let i=0;i<len;i++)data[i]=(Math.random()*2-1)*damage/100;
+        const noise=ctx.createBufferSource(),ng=ctx.createGain();noise.buffer=buffer;ng.gain.setValueAtTime(Math.max(.0001,.06*damage/100*force*volume),now);ng.gain.exponentialRampToValueAtTime(.0001,now+.18);noise.connect(ng).connect(ctx.destination);noise.onended=()=>{noise.disconnect();ng.disconnect();};noise.start(now);noise.stop(now+.19);}
+    }
+    function piano(){const svg=$('#piano-svg');svg.innerHTML='';const damage=Math.min(100,wear/+$('#p-dur').value*100),remaining=100-damage;
+      line(svg,70,127,650,127,'var(--border)',16);if(remaining>0)line(svg,70,127,70+580*remaining/100,127,damage>75?'var(--destructive)':'var(--viz-series-1)',16);
+      const title=make('text',{x:360,y:60,'text-anchor':'middle',fill:'var(--foreground)','font-size':22});title.textContent=damage>=100?'故障 — 修理して、もう一度。':'残りの耐久度 '+remaining.toFixed(0)+'%';svg.append(title);
+      const sub=make('text',{x:360,y:90,'text-anchor':'middle',fill:'var(--muted-foreground)','font-size':12});sub.textContent=damage>=100?'鍵盤は発音しません':damage>70?'限界が近づいています':damage>35?'音の変化に耳をすませて':'澄んだ音から、実験をはじめよう';svg.append(sub);
+      const count=make('text',{x:360,y:178,'text-anchor':'middle',fill:'var(--muted-foreground)','font-size':12});count.textContent='演奏回数 '+strikes+' ／ ダメージ '+damage.toFixed(1)+'%';svg.append(count);
+      root.querySelectorAll('.key').forEach(k=>{k.classList.toggle('broken',damage>=100);k.setAttribute('aria-disabled',String(damage>=100));});
+      const mute=+$('#p-volume').value===0||+$('#p-force').value===0;
+      $('#piano-readout').textContent=(damage>=100?'故障中。修理ボタンで復帰できます。':mute?'無音に設定されています。':audioStatus)+' ／ 演奏の強さ '+$('#p-force').value+'%';return damage;
+    }
+    async function strike(k){const current=piano();if(current>=100)return;
+      k.classList.add('pressed');setTimeout(()=>k.classList.remove('pressed'),140);
+      // Commit wear immediately so simultaneous key presses cannot bypass the damage threshold.
+      const force=+$('#p-force').value;if(force>0){wear+=Math.max(2,force/4);strikes++;}piano();
+      const ctx=await getAudio();if(ctx)playNote(ctx,+k.dataset.freq,current);piano();
+    }
+    const keymap=['a','w','s','e','d','f','t','g','y','h','u','j'],keys=[...root.querySelectorAll('.key')];
+    keys.forEach((k,i)=>{k.type='button';k.setAttribute('aria-label',k.dataset.note+'、キーボード '+keymap[i].toUpperCase());k.title=k.dataset.note+' ('+keymap[i].toUpperCase()+')';k.addEventListener('click',()=>strike(k));});
+    document.addEventListener('keydown',e=>{if(e.repeat||e.ctrlKey||e.altKey||e.metaKey||e.isComposing||!$('[data-panel="piano"]').classList.contains('active')||e.target.closest('input,select,textarea,[contenteditable="true"]'))return;const i=keymap.indexOf(e.key.toLowerCase());if(i>=0){e.preventDefault();strike(keys[i]);}});
+    ['force','dur','volume'].forEach(name=>$('#p-'+name).addEventListener('input',()=>{$('#p-'+name+'-out').value=$('#p-'+name).value;piano();}));
+    $('#p-breakmode').addEventListener('change',piano);$('#p-repair').addEventListener('click',()=>{wear=0;strikes=0;piano();});piano();
+  })();
+  </script>
+</div>
+
+</body></html>
