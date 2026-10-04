@@ -2,6 +2,19 @@
 
 太陽系の公転、数値の増加、損傷によって変化するピアノの音を体験する静的Webアプリです。
 
+## アプリのプレビュー
+
+公開サイトの3つのアプリを、実際の画面で紹介します。画像をクリックすると公開サイトを開けます。
+
+| 太陽系を旅する | 増加のしくみ | 音とピアノ |
+| --- | --- | --- |
+| [![太陽系を旅する：惑星の軌道と観測コントロール](assets/screenshots/solar-system.jpg)](https://kentarooishi-collab.github.io/simulation-lab/) | [![増加のしくみ：初期値・増加率・期間と複利グラフ](assets/screenshots/growth.jpg)](https://kentarooishi-collab.github.io/simulation-lab/) | [![音とピアノ：演奏コントロール・鍵盤・耐久度メーター](assets/screenshots/piano.jpg)](https://kentarooishi-collab.github.io/simulation-lab/) |
+| 惑星や月の公転を観察する | 数値が積み重なる曲線を確かめる | 演奏の強さと音の変化を体験する |
+
+公開サイトで上部のタブを選ぶと、各アプリに切り替えられます。
+
+スクリーンショットは2026-10-05に公開サイトの初期状態を撮影しました。加工していない全ページ画像の元素材は [`assets/screenshots/`](assets/screenshots/) に保存しています。
+
 ## 収録内容
 
 | タブ | 内容 | 見た目 |
